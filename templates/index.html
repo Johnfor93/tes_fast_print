@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tes Fast Print</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div id="alert"></div>
+
+      <div class="container">
+        <div class="content py-3">
+          <h1>Daftar Product</h1>
+
+          <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-start align-items-center">
+              <div class="pe-3 me-2">Filter</div>
+              <div class="btn btn-sm border-info btn-sm btn-filter me-2" onclick="filterProduk('1')">Bisa Dijual</div>
+              <div class="btn btn-sm border-info btn-sm btn-filter" onclick="filterProduk('2')">Tidak Bisa Dijual</div>
+            </div>
+            <div class="btn btn-primary btn-sm" onclick="createModal()">&plus; Tambah Produk</div>
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nama</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="product_data">
+              {% for item in dataProduk %}
+              <tr>
+                <td>{{item.id_produk}}</td>
+                <td>{{item.nama_produk}}</td>
+                <td>{{item.nama_kategori}}</td>
+                <td>{{item.harga}}</td>
+                <td>{{item.nama_status}}</td>
+                <td class="col-2">
+                  <div class="flex">
+                    <div class="btn btn-sm btn-success" onclick="EditModal('{{item.id_produk}}')"><i class="bi bi-pencil-square me-2"></i>Edit</div>
+                    <div class="btn btn-sm btn-danger" onclick="deleteModal('{{item.id_produk}}')"><i class="bi bi-trash3"></i>Delete</div>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <button id="back-btn" class="btn btn-sm btn-rounded btn-outline-secondary .text-secondary" data-current="1" onclick="prevPage()">&larr; Prev</button>
+            <button id="next-btn" class="btn btn-sm btn-rounded btn-outline-secondary .text-secondary" data-current="1" onclick="nextPage()">Next &rarr;</button>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="limitData" class="col-form-label">Data ditampilkan</label>
+            </div>
+
+            <div class="col">
+              <select class="form-select form-select-sm limit-data" id="limitData">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popout" id="popout"></div>
+    <div id="foreign_modal" class="popout"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+      let alertElement = document.getElementById("alert");
+      function showSuccess() {
+        alertElement.innerHTML = `
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          Operasi berhasil dilakukan.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+      }
+      function showError(title, message) {
+        alertElement.innerHTML = `
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <h4>${title}</h4>
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+      }
+    </script>
+    <script src="{{ url_for('static', filename='js/produk_list.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/produk_create.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/produk_edit.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/produk_delete.js') }}"></script>
+  </body>
+</html>
