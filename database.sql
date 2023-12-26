@@ -8,11 +8,6 @@ CREATE TABLE fast_print_status(
     nama_status VARCHAR(80)
 );
 
-CREATE TABLE status(
-    id_status VARCHAR(40) PRIMARY KEY NOT NULL,
-    nama_status VARCHAR(80)
-);
-
 CREATE TABLE fast_print_produk(
     id_produk VARCHAR(40) PRIMARY KEY NOT NULL,
     nama_produk VARCHAR(255),
